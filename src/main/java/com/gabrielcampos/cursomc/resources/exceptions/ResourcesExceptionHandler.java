@@ -15,7 +15,7 @@ public class ResourcesExceptionHandler {
 
 	// Método para receber a exceção e as informações da requisição
 	// É necessário colocar a anotação exceptionHandler passando o tipo de exceção
-	// para falar que o método vai tratar o tipo informado
+	// para falar que o método vai tratar
 	@ExceptionHandler(ObjectNotFoundException.class)
 	public ResponseEntity<StandardError> objectNotFound(ObjectNotFoundException e, HttpServletRequest request) {
 

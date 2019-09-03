@@ -17,14 +17,14 @@ public class CategoriaResource {
 	@Autowired
 	private CategoriaService service;
 
-	// o endpoint agora vai ser o /categorias/algumId
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-
 	// Para o spring saber que o id da url vai ir pro id da variável tem que inserir
 	// a anotação @PathVariable
 
 	// O tipo ResponseEntity é um tipo especial do spring que já encapsula várias
 	// informações de uma resposta http para um serviço REST
+
+	// o endpoint agora vai ser o /categorias/algumId
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<?> find(@PathVariable Integer id) {
 
 		Categoria obj = service.buscar(id);
