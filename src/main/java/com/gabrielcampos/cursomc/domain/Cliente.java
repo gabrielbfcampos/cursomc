@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.gabrielcampos.cursomc.domain.enums.TipoCliente;
 
 @Entity
@@ -33,12 +34,16 @@ public class Cliente implements Serializable{
 	private String cpfOuCnpj;
 	private Integer tipo;
 	
+	//Endpoint para o cliente vim com os endereços 
+	//a anotacao JsonManagedReference permite serializar pelo cliente
+	@JsonManagedReference
 	@OneToMany(mappedBy = "cliente")
 	private List<Endereco> enderecos = new ArrayList<>();
 	
 	// colecao para o telefone
 	// será do tipo set porque nao permite repetição, vai ser um conjunto de strings
-	// para instanciar a classe set foi utilizado o hashset
+	
+	// Para instanciar a classe set foi utilizado o hashset
 	
 	//Para criar direitinho a entidade fraca a gente usa o @ElementCollection e o @CollectionTable
 	// para informar o nome da tabela que será criada
