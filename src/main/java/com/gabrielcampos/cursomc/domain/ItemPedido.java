@@ -41,7 +41,7 @@ public class ItemPedido implements Serializable{
 	
 	//o getpedido e getproduto é para a gente ter acesso ao pedido e o produto fora do item pedido
 	//nao podemos deixar o metodo do pedido sendo possivel de serializacao
-	// Já que o pedido pode instanciar um item e nao o inverso
+	// Já que o pedido pode serializar um item e nao o inverso
 	@JsonIgnore
 	public Pedido getPedido() {
 		return id.getPedido();
