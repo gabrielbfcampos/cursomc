@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.gabrielcampos.cursomc.domain.enums.EstadoPagamento;
 
 //@Inheritance para mapear as subclasses
@@ -29,6 +30,8 @@ public abstract class Pagamento implements Serializable{
 	
 	private Integer estado;
 	
+	//Um pagamento nao pode serializar o pedido
+	@JsonBackReference
 	//aqui a gente fala que  vai ser onetoone e que a coluna será o pedido_id
 	//Anotacao mapsid pra garantir que o id será o mesmo
 	@OneToOne

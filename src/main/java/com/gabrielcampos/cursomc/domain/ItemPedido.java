@@ -5,6 +5,8 @@ import java.io.Serializable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class ItemPedido implements Serializable{
 	
@@ -12,7 +14,10 @@ public class ItemPedido implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	
+	//Pra nem o pedido nem o produto olhar para o item pedido
+	//A partir do item de pedido ele n serializa ngm nem o pedido nem o produto
+	@JsonIgnore
 	//Temos que instanciar a ItemPedido PK para ser o nosso id
 	//Ele é um id imbutido em um tipo auxiliar
 	@EmbeddedId
@@ -35,10 +40,15 @@ public class ItemPedido implements Serializable{
 	}
 	
 	//o getpedido e getproduto é para a gente ter acesso ao pedido e o produto fora do item pedido
+	//nao podemos deixar o metodo do pedido sendo possivel de serializacao
+	// Já que o pedido pode instanciar um item e nao o inverso
+	@JsonIgnore
 	public Pedido getPedido() {
 		return id.getPedido();
 	}
 	
+	
+	//Aqui é permitido porque um item de pedido pode instanciar um produto
 	public Produto getProduto() {
 		return id.getProduto();
 	}

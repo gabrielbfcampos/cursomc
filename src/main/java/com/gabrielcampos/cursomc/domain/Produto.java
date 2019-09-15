@@ -16,6 +16,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Produto implements Serializable {
@@ -46,7 +47,9 @@ public class Produto implements Serializable {
 	@JoinTable(name = "PRODUTO_CATEGORIA", joinColumns = @JoinColumn(name = "produto_id"), inverseJoinColumns = @JoinColumn(name = "categoria_id"))
 	private List<Categoria> categorias = new ArrayList<>();
 	
-
+	//para ignorar a serializacao dos itens pelo produto. Deixar o pedido que já tem a lista fazer
+	//respeitando que é a partir de um item de pedido que vemos o produto
+	@JsonIgnore
 	//a gente usa o set para a classe java ajudar a nao permitir item repetido no mesmo produto
 	@OneToMany(mappedBy = "id.produto")
 	private Set<ItemPedido> itens = new HashSet<>();
@@ -63,6 +66,8 @@ public class Produto implements Serializable {
 		this.preco = preco;
 	}
 	
+	//nao podemos permitir os permitir a serializacao dos pedidos pelo produto
+	@JsonIgnore
 	public List<Pedido> getPedidos(){
 		List<Pedido> lista = new ArrayList<>();
 		//vou percorrer todos os itempedido x na lista de itens
