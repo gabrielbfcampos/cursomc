@@ -25,9 +25,9 @@ public class PedidoResource {
 
 	// o endpoint agora vai ser o /pedidos/algumId
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<?> find(@PathVariable Integer id) {
+	public ResponseEntity<Pedido> find(@PathVariable Integer id) {
 
-		Pedido obj = service.buscar(id);
+		Pedido obj = service.find(id);
 
 		// retorna um objeto ResponseEntity falando que está tudo ok e que tem como
 		// corpo o obj de categoria

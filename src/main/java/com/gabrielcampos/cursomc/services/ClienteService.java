@@ -19,7 +19,7 @@ public class ClienteService {
 	private ClienteRepository repo;
 
 	// implementação do serviço que busca um cliente
-	public Cliente buscar(Integer id) {
+	public Cliente find(Integer id) {
 		
 		// A principal proposta do Optional é encapsular o retorno de métodos e
 		// informar se um valor do tipo <T> está presente ou ausente.

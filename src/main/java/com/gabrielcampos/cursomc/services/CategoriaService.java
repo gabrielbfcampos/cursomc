@@ -21,7 +21,7 @@ public class CategoriaService {
 	private CategoriaRepository repo;
 
 	// implementação do serviço que busca uma categoria
-	public Categoria buscar(Integer id) {
+	public Categoria find(Integer id) {
 		
 		Optional<Categoria> obj = repo.findById(id);
 		
@@ -33,6 +33,13 @@ public class CategoriaService {
 	//setId null pra sempre inserir um novo
 	public Categoria insert (Categoria obj) {
 		obj.setId(null);
+		return repo.save(obj);
+	}
+	
+	//implementacao do servico que atualiza uma categoria
+	public Categoria update (Categoria obj) {
+		//chamo o find pra buscar o objeto no banco e caso n exista ele já retorna a exceçao
+		find(obj.getId());
 		return repo.save(obj);
 	}
 
