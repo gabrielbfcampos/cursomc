@@ -3,10 +3,12 @@ package com.gabrielcampos.cursomc.services;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.gabrielcampos.cursomc.domain.Categoria;
 import com.gabrielcampos.cursomc.repositories.CategoriaRepository;
+import com.gabrielcampos.cursomc.services.exceptions.DataIntegrityException;
 import com.gabrielcampos.cursomc.services.exceptions.ObjectNotFoundException;
 
 
@@ -41,6 +43,16 @@ public class CategoriaService {
 		//chamo o find pra buscar o objeto no banco e caso n exista ele já retorna a exceçao
 		find(obj.getId());
 		return repo.save(obj);
+	}
+	
+	//implementacao do servico que deleta uma categoria pelo Id
+	public void delete(Integer id) {
+		find(id);
+		try {
+		repo.deleteById(id);
+		}catch(DataIntegrityViolationException e) {
+			throw new DataIntegrityException("Não é possível excluir uma categoria que possui produtos");
+		}
 	}
 
 }
