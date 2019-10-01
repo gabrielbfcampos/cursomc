@@ -1,6 +1,8 @@
 package com.gabrielcampos.cursomc.resources;
 
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.gabrielcampos.cursomc.domain.Categoria;
+import com.gabrielcampos.cursomc.dto.CategoriaDTO;
 import com.gabrielcampos.cursomc.services.CategoriaService;
 
 @RestController
@@ -63,6 +66,22 @@ public class CategoriaResource {
 	public ResponseEntity<Void> delete(@PathVariable Integer id) {
 		service.delete(id);
 		return ResponseEntity.noContent().build();
+	}
+	
+	//Trazer todas as categorias
+	@RequestMapping(method = RequestMethod.GET)
+	public ResponseEntity<List<CategoriaDTO>> findAll() {
+
+		List<Categoria> list = service.findAll();
+		
+		//instanciando o dto correspondente a lista de categoria
+		//stream para percorrer toda a lista
+		//operacao map para efetuar uma operacao para cada elemento da lista no caso obj
+		//pra cada elemento obj a gente cria um arrowfunction (- >) que vai criar um new categoriaDTO que vai receber o obj
+		//Pra converter a lista na listDTO é só colocar o .collect(Collectors.toList())
+		List<CategoriaDTO> listDto = list.stream().map(obj -> new CategoriaDTO(obj)).collect(Collectors.toList());
+	
+		return ResponseEntity.ok().body(listDto);
 	}
 
 }
