@@ -5,11 +5,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -80,6 +82,27 @@ public class CategoriaResource {
 		//pra cada elemento obj a gente cria um arrowfunction (- >) que vai criar um new categoriaDTO que vai receber o obj
 		//Pra converter a lista na listDTO é só colocar o .collect(Collectors.toList())
 		List<CategoriaDTO> listDto = list.stream().map(obj -> new CategoriaDTO(obj)).collect(Collectors.toList());
+	
+		return ResponseEntity.ok().body(listDto);
+	}
+	
+	//trazer as categorias por paginação
+	//não é como variáveis do path igual o ID para buscar uma específica e sim por parâmetros
+	// a ideia é ficar /categorias/page?page=0&linesPerPage=20 e assim por diante, para que eles sejam parametros
+	// vamos botar a anotação RequestParam
+	@RequestMapping(value="/page",method = RequestMethod.GET)
+	public ResponseEntity<Page<CategoriaDTO>> findPage(
+			@RequestParam(value="page", defaultValue = "0") Integer page,
+			@RequestParam(value="linesPerPage", defaultValue = "24") Integer linesPerPage,
+			@RequestParam(value="orderBy", defaultValue = "nome") String orderBy,
+			//Ou ASC ou DESC
+			@RequestParam(value="direction", defaultValue = "ASC") String direction) {
+		
+		//por ser java8 compliance não precisa nem do stream nem do collect
+		Page<Categoria> list = service.findPage(page, linesPerPage, orderBy, direction);
+		
+		
+		Page<CategoriaDTO> listDto = list.map(obj -> new CategoriaDTO(obj));
 	
 		return ResponseEntity.ok().body(listDto);
 	}
